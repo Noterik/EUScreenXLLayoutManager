@@ -17,5 +17,4 @@ Choose one of the following options:
 
 ## Contributing
 
-Anyone and everyone is welcome to [contribute](CONTRIBUTING.md). Hundreds of
-developers have helped make the HTML5 Boilerplate what it is today.
+Anyone and everyone is welcome to [contribute](CONTRIBUTING.md).
