@@ -10,7 +10,7 @@ requirejs(['squared-layout'], function(SquaredLayout){
     var element = jQuery(".items");
 
     var chunkTemplate = jQuery('<div class="item-chunk" data-ntk-columns="8"></div>');
-    var template = jQuery('<div class="ntk-layout-item"><div class="contents"></div></div>');
+    var template = jQuery('<div class="ntk-layout-item" style="width: 1000px"><div class="contents"></div></div>');
     var loadMoreButton = jQuery(".controller .loadmore");
 
     loadMoreButton.on('click', function(){
@@ -23,7 +23,7 @@ requirejs(['squared-layout'], function(SquaredLayout){
             amount += row.length;
         }
 
-        for(var c = 0; c < amount; c++){
+        for(var c = 0; c < 15; c++){
             var item = template.clone();
             item.find(".contents").text("" + c);
             chunk.append(item);

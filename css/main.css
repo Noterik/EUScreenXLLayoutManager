@@ -98,7 +98,7 @@ textarea {
    ========================================================================== */
 
 .items{
-    width: 600px;
+    width: 1000px;
 }
 
 .controller{
@@ -110,6 +110,7 @@ textarea {
 }
 
 .items .item-chunk{
+    width: 100%;
     position: relative;
 }
 

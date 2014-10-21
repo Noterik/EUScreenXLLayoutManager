@@ -148,45 +148,53 @@ define([], function(){
             resize();
         };
 
-        var resize = function(){
+        var resize = function() {
             parseChildren();
+
             var width = self.element.width();
-            var itemWidth = width / self.columns;
-            var itemHeight = itemWidth / self.aspectRatio;
+            if (width > 0) {
+                var rows = children.last().data('row') + 1;
+                var gutter = self.gutter;
+                var itemWidth = Math.round((width - gutter * (self.columns - 1)) / self.columns);
+                var itemHeight = Math.ceil(itemWidth / self.aspectRatio);
+                var lastSubRow = 0;
+                var biggestSubRow = 0;
 
-            children.each(function(){
-                var $this = $(this);
-                var size = $this.data('weight');
+                var elementWidth = self.columns * itemWidth + (self.columns - 1) * gutter;
 
-                if(size > 1){
-                    $this.addClass('media-big');
-                }
+                self.element.width(elementWidth);
 
-                var row = $this.data('row');
-                column = $this.data('column');
-                subrow = $this.data('subrow');
+                var maxRowItemSize = 0;
 
-                var widthToSet = size * itemWidth;
-                var heightToSet = size * itemHeight;
-                var leftToSet = Math.floor(itemWidth * column);
-                var topToSet = Math.floor(((itemHeight * 2) * row) + subrow * itemHeight);
+                children.each(function () {
+                    var $this = $(this);
+                    var size = $this.data('weight');
 
-                widthToSet -= self.gutter;
-                leftToSet += self.gutter / 2;
+                    var row = $this.data('row'),
+                        column = $this.data('column'),
+                        subrow = $this.data('subrow');
 
-                heightToSet -= self.gutter;
-                topToSet += self.gutter / 2;
+                    var widthToSet = size * itemWidth + (size - 1) * gutter;
+                    var heightToSet = size * itemHeight + (size - 1) * gutter;
+                    var leftToSet = column * itemWidth + (column * gutter);
+                    var subrows = row * 2 + subrow;
+                    lastSubRow = subrows + (size - 1);
+                    if(lastSubRow > biggestSubRow){
+                        biggestSubRow = lastSubRow;
+                    }
+                    var topToSet = subrows * itemHeight + subrows * gutter;
 
-                $this.css('left', leftToSet);
-                $this.css('top', topToSet);
+                    $this.css('width', widthToSet);
+                    $this.css('height', heightToSet);
+                    $this.css('left', leftToSet);
+                    $this.css('top', topToSet);
+                });
 
-                $this.width(widthToSet);
-                $this.height(heightToSet);
-            });
-
-            self.element.height(row * itemHeight * 2);
-
-        };
+                biggestSubRow++;
+                var elementHeight = biggestSubRow * itemHeight + biggestSubRow * gutter;
+                self.element.height(elementHeight);
+            }
+        }
 
         this.afterResizeCallbacks.push(resize);
         this.beforeCreateCallbacks.push(this.apply);
