@@ -1,4 +1,6 @@
 define([], function(){
+
+
     var Squared = function(options){
         var self = this;
 
